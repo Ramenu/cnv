@@ -1,0 +1,9 @@
+[package]
+    name = "cnv"
+    debug_build = false
+    
+[compiler]
+    compiler = "gcc"
+
+[misc]
+    static_analysis_enabled = true
