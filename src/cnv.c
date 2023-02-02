@@ -29,7 +29,7 @@ typedef struct unit {
 } unit;
 
 static size_t flag = NO_OPTION_ENABLED;
-static unit *unit_to_convert;
+static unit unit_to_convert;
 static const char *unit_to_convert_to;
 static unit_type unit_to_convert_to_type;
 static const double UNIT_SIZES[5] = {1.0, ONE_KB_IN_BYTES, ONE_MB_IN_BYTES, ONE_GB_IN_BYTES, ONE_TB_IN_BYTES};
@@ -42,24 +42,18 @@ int main(int argc, char **argv)
     if (argc < 3)
         err("usage: cnv <unit_to_convert> <unit_to_convert_to>");
 
-    unit_to_convert = malloc(sizeof(unit));
-    if (unit_to_convert == NULL) {
-        err("out of memory");
-        return 1;
-    }
-    unit_to_convert->type = B;
+    unit_to_convert.type = B;
     parse_args(argc, argv);
 
     if (unit_to_convert_to == NULL)
         err("unit to convert to not specified");
 
-    const double out_unit = unit_to_convert->value * UNIT_SIZES[unit_to_convert->type] / UNIT_SIZES[unit_to_convert_to_type];
+    const double out_unit = unit_to_convert.value * UNIT_SIZES[unit_to_convert.type] / UNIT_SIZES[unit_to_convert_to_type];
     if (flag&DO_NOT_SHOW_UNIT)
         printf("%.6g\n", out_unit);
     else
         printf("%.6g%s\n", out_unit, unit_to_convert_to);
 
-    free(unit_to_convert);
     return 0;
 }
 
@@ -122,11 +116,11 @@ static inline void parse_args(int argc, char **argv)
                     else if (argv[i][j + 1] == 'b' || argv[i][j + 1] == 'B' || argv[i][j] == 'b') {
                         switch (tolower(argv[i][j])) {
                             default: err("unknown unit specified"); break;
-                            case 'b': unit_to_convert->type = B;  break;
-                            case 'k': unit_to_convert->type = KB; break;
-                            case 'm': unit_to_convert->type = MB; break;
-                            case 'g': unit_to_convert->type = GB; break;
-                            case 't': unit_to_convert->type = TB; break;
+                            case 'b': unit_to_convert.type = B;  break;
+                            case 'k': unit_to_convert.type = KB; break;
+                            case 'm': unit_to_convert.type = MB; break;
+                            case 'g': unit_to_convert.type = GB; break;
+                            case 't': unit_to_convert.type = TB; break;
                         }
                         parsed_unit_to_convert = true;
                         break;
@@ -152,7 +146,7 @@ static inline void parse_args(int argc, char **argv)
 
     if (n_as_str == NULL)
         err("invalid arguments provided");
-    unit_to_convert->value = strtod(n_as_str, NULL);
+    unit_to_convert.value = strtod(n_as_str, NULL);
     free(n_as_str);
 
 }
