@@ -72,6 +72,7 @@ static inline void parse_args(int argc, char **argv)
     bool digit_first = false;
     bool has_one_decimal_only = true;
     bool initialized_str = false;
+	bool finished_parsing = false;
     for (int i = 1; i < argc; ++i) {
         bool option_toggled = false;
         for (size_t j = 0; argv[i][j] != '\0'; ++j) {
@@ -90,7 +91,7 @@ static inline void parse_args(int argc, char **argv)
                     case 'n': flag |= DO_NOT_SHOW_UNIT; break; /* enabling this flag only shows the number */
                 }
             }
-            else {
+            else if (!finished_parsing) {
                 if (!parsed_unit_to_convert) {
                     if (isdigit(argv[i][j]) || (argv[i][j] == '.' && has_one_decimal_only)) {
                         if (!initialized_str) {
@@ -126,6 +127,9 @@ static inline void parse_args(int argc, char **argv)
                         parsed_unit_to_convert = true;
                         break;
                     }
+					else {
+						err("unknown unit specified"); break;
+					}
                 }
                 else if (argv[i][j + 1] == 'b' || argv[i][j + 1] == 'B' || argv[i][j] == 'b') {
                     switch (tolower(argv[i][j])) {
@@ -136,12 +140,17 @@ static inline void parse_args(int argc, char **argv)
                         case 'g': unit_to_convert_to = "GB"; unit_to_convert_to_type = GB; break;
                         case 't': unit_to_convert_to = "TB"; unit_to_convert_to_type = TB; break;
                     }
+					/* we can't just exit the function as there might be more options to parse */
+					finished_parsing = true;
                     break;
                 }
                 else {
                     err("invalid unit to convert to");
                 }
             }
+			else {
+				err("invalid argument");
+			}
         }
     }
 
