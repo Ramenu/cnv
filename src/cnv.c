@@ -99,7 +99,7 @@ static inline void parse_args(int argc, char **argv)
                 if (!parsed_unit_to_convert) {
                     if (isdigit(argv[i][j]) || (argv[i][j] == '.' && has_one_decimal_only)) {
                         if (!initialized_str) {
-                            n_as_str = calloc(sizeof(char), strlen(argv[i]));
+                            n_as_str = calloc(sizeof(char), strlen(argv[i]) + 1);
                             if (n_as_str == NULL)
                                 err("out of memory");
                             initialized_str = true;
