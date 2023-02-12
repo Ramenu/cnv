@@ -10,10 +10,10 @@
 #define DO_NOT_SHOW_UNIT 0x1
 #define ERROR_STR COLOR_BOLDRED "error" COLOR_BOLDWHITE ":" COLOR_RESET
 
-static const size_t ONE_KB_IN_BYTES = 1000ull;
-static const size_t ONE_MB_IN_BYTES = ONE_KB_IN_BYTES * 1000;
-static const size_t ONE_GB_IN_BYTES = ONE_MB_IN_BYTES * 1000;
-static const size_t ONE_TB_IN_BYTES = ONE_GB_IN_BYTES * 1000;
+static const size_t ONE_KB_IN_BYTES = 1024ull;
+static const size_t ONE_MB_IN_BYTES = ONE_KB_IN_BYTES * 1024;
+static const size_t ONE_GB_IN_BYTES = ONE_MB_IN_BYTES * 1024;
+static const size_t ONE_TB_IN_BYTES = ONE_GB_IN_BYTES * 1024;
 
 typedef enum unit_type {
     B,
