@@ -7,3 +7,4 @@
 
 [misc]
     static_analysis_enabled = true
+    harden = true
