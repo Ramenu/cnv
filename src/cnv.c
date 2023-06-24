@@ -74,6 +74,7 @@ static inline void parse_args(int argc, char **argv)
     bool initialized_str = false;
 	bool finished_parsing = false;
     for (int i = 1; i < argc; ++i) {
+        const size_t lngth = strlen(argv[i]);
         bool option_toggled = false;
         for (size_t j = 0; argv[i][j] != '\0'; ++j) {
             if (argv[i][j] == '-') {
@@ -95,7 +96,7 @@ static inline void parse_args(int argc, char **argv)
                 if (!parsed_unit_to_convert) {
                     if (isdigit(argv[i][j]) || (argv[i][j] == '.' && has_one_decimal_only)) {
                         if (!initialized_str) {
-                            n_as_str = calloc(sizeof(char), strlen(argv[i]) + 1);
+                            n_as_str = calloc(sizeof(char), lngth + 1);
                             if (n_as_str == NULL)
                                 err("out of memory");
                             initialized_str = true;
@@ -116,6 +117,8 @@ static inline void parse_args(int argc, char **argv)
                         err("no number provided");
                     }
                     else if (argv[i][j + 1] == 'b' || argv[i][j + 1] == 'B' || argv[i][j] == 'b') {
+                        if (lngth - j > 2)
+                            err("invalid unit specified");
                         switch (tolower(argv[i][j])) {
                             default: err("unknown unit specified"); break;
                             case 'b': unit_to_convert.type = B;  break;
@@ -132,6 +135,8 @@ static inline void parse_args(int argc, char **argv)
 					}
                 }
                 else if (argv[i][j + 1] == 'b' || argv[i][j + 1] == 'B' || argv[i][j] == 'b') {
+                    if (lngth > 2)
+                        err("invalid unit to convert to specified");
                     switch (tolower(argv[i][j])) {
                         default: err("unknown unit to convert to specified"); break;
                         case 'b': unit_to_convert_to = "B";  unit_to_convert_to_type = B;  break;
