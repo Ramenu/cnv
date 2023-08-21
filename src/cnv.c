@@ -65,9 +65,8 @@ int main(int argc, char **argv)
 
 static inline bool has_arg(int argc, char **argv, const char *arg_to_find)
 {
-	const size_t len = strlen(arg_to_find);
 	for (int i = 1; i < argc; ++i) 
-		if (strncmp(argv[i], arg_to_find, len) == 0)
+		if (strcmp(argv[i], arg_to_find) == 0)
 			return true;
 	return false;
 }
