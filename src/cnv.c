@@ -9,6 +9,7 @@
 #define NO_OPTION_ENABLED 0x0
 #define DO_NOT_SHOW_UNIT 0x1
 #define ERROR_STR COLOR_BOLDRED "error" COLOR_BOLDWHITE ":" COLOR_RESET
+#define VERSION "0.1.0"
 
 static const size_t ONE_KB_IN_BYTES = 1024ull;
 static const size_t ONE_MB_IN_BYTES = ONE_KB_IN_BYTES * 1024;
@@ -37,9 +38,13 @@ static const double UNIT_SIZES[5] = {1.0, ONE_KB_IN_BYTES, ONE_MB_IN_BYTES, ONE_
 
 static inline void err(const char *msg);
 static inline void parse_args(int argc, char **argv);
+static inline void print_version();
+static inline bool has_arg(int argc, char **argv, const char *arg_to_find);
 
 int main(int argc, char **argv)
 {
+	if (has_arg(argc, argv, "--version"))
+		print_version();
     if (argc < 3)
         err("usage: cnv <unit_to_convert> <unit_to_convert_to>");
 
@@ -58,6 +63,20 @@ int main(int argc, char **argv)
     return 0;
 }
 
+static inline bool has_arg(int argc, char **argv, const char *arg_to_find)
+{
+	const size_t len = strlen(arg_to_find);
+	for (int i = 1; i < argc; ++i) 
+		if (strncmp(argv[i], arg_to_find, len) == 0)
+			return true;
+	return false;
+}
+
+static inline void print_version()
+{
+	printf("cnv v" VERSION "\n");
+	exit(EXIT_SUCCESS);
+}
 
 static inline void err(const char *msg)
 {
