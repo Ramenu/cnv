@@ -38,7 +38,7 @@ static const double UNIT_SIZES[5] = {1.0, ONE_KB_IN_BYTES, ONE_MB_IN_BYTES, ONE_
 
 static inline void err(const char *msg);
 static inline void parse_args(int argc, char **argv);
-static inline void print_version();
+static inline void print_version(void);
 static inline bool has_arg(int argc, char **argv, const char *arg_to_find);
 
 int main(int argc, char **argv)
@@ -71,7 +71,7 @@ static inline bool has_arg(int argc, char **argv, const char *arg_to_find)
 	return false;
 }
 
-static inline void print_version()
+static inline void print_version(void)
 {
 	printf("cnv v" VERSION "\n");
 	exit(EXIT_SUCCESS);
