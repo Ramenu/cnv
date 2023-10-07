@@ -1,6 +1,7 @@
 [package]
     name = "cnv"
     debug_build = false
+	disable_env = false
     
 [compiler]
     compiler = "gcc"
